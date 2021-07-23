@@ -1,0 +1,76 @@
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>ArcGIS API for JavaScript : Macca Hydrology Analysis </title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 98%;
+            width: 93%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.20/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.20/"></script>
+
+    <script>
+        require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer",
+            "esri/widgets/Legend"],
+            function (esriConfig, Map, MapView, FeatureLayer, Legend) {
+
+                esriConfig.apiKey = "AAPKee7d3b3a70e7429f90f84b2efbbc0a81RNt5FlFCx1HRlnNxgtJ4dFHj3vRjuazaIkhiDj09XbnSPZqp1x8PowVANc4w3t6p";
+
+                var template = {
+                    title: "Aricd: {arcid} <br>" ,
+                    content: "Grid Code: {grid_code}<br>" +
+                        "From Node: {from_node}<Br>"+
+                            "To Node: {to_node}<Br>"
+                }
+                var mylayer = new FeatureLayer({
+                    // URL to the service
+                    url: "https://services9.arcgis.com/SKX4Ho42BPrgC7Qi/arcgis/rest/services/MapMaccaHyd2_WFL1/FeatureServer",
+                    popupTemplate: template
+
+                });
+
+
+                const map = new Map({
+                    basemap: "topo", // Basemap layer service
+                    layers: [mylayer]
+                });
+
+                const view = new MapView({
+                    map: map,
+                    center: [40.0890426, 21.4867552], // Longitude, latitude
+                    zoom: 11, // Zoom level
+                    container: "viewDiv" // Div element
+                });
+                let legend = new Legend({
+                    view: view,
+                    layerInfos: [{
+                        layer: mylayer,
+                        title: "Legend"
+                    }]
+                });
+
+                view.ui.add(legend, "bottom-right");
+
+               
+                
+            });
+    </script>
+
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+</html>
